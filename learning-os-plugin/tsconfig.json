@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "*": ["*"]
+    },
+    "moduleResolution": "node",
+    "target": "ES2022",
+    "module": "ES2022",
+    "jsx": "react",
+    "strict": true,
+    "lib": ["DOM", "ES2022"],
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./"
+  },
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
+}

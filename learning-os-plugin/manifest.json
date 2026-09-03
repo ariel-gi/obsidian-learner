@@ -1,0 +1,10 @@
+{
+	"id": "learning-os",
+	"name": "Learning OS",
+	"version": "1.0.0",
+	"minAppVersion": "1.5.0",
+	"description": "Dynamic Personal Learning OS with AI Skill Evolution.",
+	"author": "You",
+	"authorUrl": "",
+	"isDesktopOnly": true
+}
