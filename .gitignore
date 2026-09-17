@@ -1,1 +1,16 @@
+# ── Node ──────────────────────────────────────────────────────────────────────
 /learning-os-plugin/node_modules
+
+# ── Python ────────────────────────────────────────────────────────────────────
+learning-os-backend/.venv/
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+
+# ── macOS ─────────────────────────────────────────────────────────────────────
+.DS_Store
+
+# ── Obsidian generated / workspace state ──────────────────────────────────────
+test-vault/.obsidian/workspace.json
+test-vault/.obsidian/graph.json

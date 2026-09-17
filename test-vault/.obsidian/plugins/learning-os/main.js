@@ -21730,6 +21730,281 @@ var require_client = __commonJS({
   }
 });
 
+// node_modules/react/cjs/react-jsx-runtime.development.js
+var require_react_jsx_runtime_development = __commonJS({
+  "node_modules/react/cjs/react-jsx-runtime.development.js"(exports) {
+    "use strict";
+    (function() {
+      function getComponentNameFromType(type) {
+        if (null == type)
+          return null;
+        if ("function" === typeof type)
+          return type.$$typeof === REACT_CLIENT_REFERENCE ? null : type.displayName || type.name || null;
+        if ("string" === typeof type)
+          return type;
+        switch (type) {
+          case REACT_FRAGMENT_TYPE:
+            return "Fragment";
+          case REACT_PROFILER_TYPE:
+            return "Profiler";
+          case REACT_STRICT_MODE_TYPE:
+            return "StrictMode";
+          case REACT_SUSPENSE_TYPE:
+            return "Suspense";
+          case REACT_SUSPENSE_LIST_TYPE:
+            return "SuspenseList";
+          case REACT_ACTIVITY_TYPE:
+            return "Activity";
+        }
+        if ("object" === typeof type)
+          switch ("number" === typeof type.tag && console.error(
+            "Received an unexpected object in getComponentNameFromType(). This is likely a bug in React. Please file an issue."
+          ), type.$$typeof) {
+            case REACT_PORTAL_TYPE:
+              return "Portal";
+            case REACT_CONTEXT_TYPE:
+              return type.displayName || "Context";
+            case REACT_CONSUMER_TYPE:
+              return (type._context.displayName || "Context") + ".Consumer";
+            case REACT_FORWARD_REF_TYPE:
+              var innerType = type.render;
+              type = type.displayName;
+              type || (type = innerType.displayName || innerType.name || "", type = "" !== type ? "ForwardRef(" + type + ")" : "ForwardRef");
+              return type;
+            case REACT_MEMO_TYPE:
+              return innerType = type.displayName || null, null !== innerType ? innerType : getComponentNameFromType(type.type) || "Memo";
+            case REACT_LAZY_TYPE:
+              innerType = type._payload;
+              type = type._init;
+              try {
+                return getComponentNameFromType(type(innerType));
+              } catch (x) {
+              }
+          }
+        return null;
+      }
+      function testStringCoercion(value) {
+        return "" + value;
+      }
+      function checkKeyStringCoercion(value) {
+        try {
+          testStringCoercion(value);
+          var JSCompiler_inline_result = false;
+        } catch (e) {
+          JSCompiler_inline_result = true;
+        }
+        if (JSCompiler_inline_result) {
+          JSCompiler_inline_result = console;
+          var JSCompiler_temp_const = JSCompiler_inline_result.error;
+          var JSCompiler_inline_result$jscomp$0 = "function" === typeof Symbol && Symbol.toStringTag && value[Symbol.toStringTag] || value.constructor.name || "Object";
+          JSCompiler_temp_const.call(
+            JSCompiler_inline_result,
+            "The provided key is an unsupported type %s. This value must be coerced to a string before using it here.",
+            JSCompiler_inline_result$jscomp$0
+          );
+          return testStringCoercion(value);
+        }
+      }
+      function getTaskName(type) {
+        if (type === REACT_FRAGMENT_TYPE)
+          return "<>";
+        if ("object" === typeof type && null !== type && type.$$typeof === REACT_LAZY_TYPE)
+          return "<...>";
+        try {
+          var name = getComponentNameFromType(type);
+          return name ? "<" + name + ">" : "<...>";
+        } catch (x) {
+          return "<...>";
+        }
+      }
+      function getOwner() {
+        var dispatcher = ReactSharedInternals.A;
+        return null === dispatcher ? null : dispatcher.getOwner();
+      }
+      function UnknownOwner() {
+        return Error("react-stack-top-frame");
+      }
+      function hasValidKey(config) {
+        if (hasOwnProperty.call(config, "key")) {
+          var getter = Object.getOwnPropertyDescriptor(config, "key").get;
+          if (getter && getter.isReactWarning)
+            return false;
+        }
+        return void 0 !== config.key;
+      }
+      function defineKeyPropWarningGetter(props, displayName) {
+        function warnAboutAccessingKey() {
+          specialPropKeyWarningShown || (specialPropKeyWarningShown = true, console.error(
+            "%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://react.dev/link/special-props)",
+            displayName
+          ));
+        }
+        warnAboutAccessingKey.isReactWarning = true;
+        Object.defineProperty(props, "key", {
+          get: warnAboutAccessingKey,
+          configurable: true
+        });
+      }
+      function elementRefGetterWithDeprecationWarning() {
+        var componentName = getComponentNameFromType(this.type);
+        didWarnAboutElementRef[componentName] || (didWarnAboutElementRef[componentName] = true, console.error(
+          "Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release."
+        ));
+        componentName = this.props.ref;
+        return void 0 !== componentName ? componentName : null;
+      }
+      function ReactElement(type, key, props, owner, debugStack, debugTask) {
+        var refProp = props.ref;
+        type = {
+          $$typeof: REACT_ELEMENT_TYPE,
+          type,
+          key,
+          props,
+          _owner: owner
+        };
+        null !== (void 0 !== refProp ? refProp : null) ? Object.defineProperty(type, "ref", {
+          enumerable: false,
+          get: elementRefGetterWithDeprecationWarning
+        }) : Object.defineProperty(type, "ref", { enumerable: false, value: null });
+        type._store = {};
+        Object.defineProperty(type._store, "validated", {
+          configurable: false,
+          enumerable: false,
+          writable: true,
+          value: 0
+        });
+        Object.defineProperty(type, "_debugInfo", {
+          configurable: false,
+          enumerable: false,
+          writable: true,
+          value: null
+        });
+        Object.defineProperty(type, "_debugStack", {
+          configurable: false,
+          enumerable: false,
+          writable: true,
+          value: debugStack
+        });
+        Object.defineProperty(type, "_debugTask", {
+          configurable: false,
+          enumerable: false,
+          writable: true,
+          value: debugTask
+        });
+        Object.freeze && (Object.freeze(type.props), Object.freeze(type));
+        return type;
+      }
+      function jsxDEVImpl(type, config, maybeKey, isStaticChildren, debugStack, debugTask) {
+        var children = config.children;
+        if (void 0 !== children)
+          if (isStaticChildren)
+            if (isArrayImpl(children)) {
+              for (isStaticChildren = 0; isStaticChildren < children.length; isStaticChildren++)
+                validateChildKeys(children[isStaticChildren]);
+              Object.freeze && Object.freeze(children);
+            } else
+              console.error(
+                "React.jsx: Static children should always be an array. You are likely explicitly calling React.jsxs or React.jsxDEV. Use the Babel transform instead."
+              );
+          else
+            validateChildKeys(children);
+        if (hasOwnProperty.call(config, "key")) {
+          children = getComponentNameFromType(type);
+          var keys = Object.keys(config).filter(function(k) {
+            return "key" !== k;
+          });
+          isStaticChildren = 0 < keys.length ? "{key: someKey, " + keys.join(": ..., ") + ": ...}" : "{key: someKey}";
+          didWarnAboutKeySpread[children + isStaticChildren] || (keys = 0 < keys.length ? "{" + keys.join(": ..., ") + ": ...}" : "{}", console.error(
+            'A props object containing a "key" prop is being spread into JSX:\n  let props = %s;\n  <%s {...props} />\nReact keys must be passed directly to JSX without using spread:\n  let props = %s;\n  <%s key={someKey} {...props} />',
+            isStaticChildren,
+            children,
+            keys,
+            children
+          ), didWarnAboutKeySpread[children + isStaticChildren] = true);
+        }
+        children = null;
+        void 0 !== maybeKey && (checkKeyStringCoercion(maybeKey), children = "" + maybeKey);
+        hasValidKey(config) && (checkKeyStringCoercion(config.key), children = "" + config.key);
+        if ("key" in config) {
+          maybeKey = {};
+          for (var propName in config)
+            "key" !== propName && (maybeKey[propName] = config[propName]);
+        } else
+          maybeKey = config;
+        children && defineKeyPropWarningGetter(
+          maybeKey,
+          "function" === typeof type ? type.displayName || type.name || "Unknown" : type
+        );
+        return ReactElement(
+          type,
+          children,
+          maybeKey,
+          getOwner(),
+          debugStack,
+          debugTask
+        );
+      }
+      function validateChildKeys(node) {
+        isValidElement(node) ? node._store && (node._store.validated = 1) : "object" === typeof node && null !== node && node.$$typeof === REACT_LAZY_TYPE && ("fulfilled" === node._payload.status ? isValidElement(node._payload.value) && node._payload.value._store && (node._payload.value._store.validated = 1) : node._store && (node._store.validated = 1));
+      }
+      function isValidElement(object) {
+        return "object" === typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
+      }
+      var React3 = require_react(), REACT_ELEMENT_TYPE = Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = Symbol.for("react.memo"), REACT_LAZY_TYPE = Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = Symbol.for("react.activity"), REACT_CLIENT_REFERENCE = Symbol.for("react.client.reference"), ReactSharedInternals = React3.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty = Object.prototype.hasOwnProperty, isArrayImpl = Array.isArray, createTask = console.createTask ? console.createTask : function() {
+        return null;
+      };
+      React3 = {
+        react_stack_bottom_frame: function(callStackForError) {
+          return callStackForError();
+        }
+      };
+      var specialPropKeyWarningShown;
+      var didWarnAboutElementRef = {};
+      var unknownOwnerDebugStack = React3.react_stack_bottom_frame.bind(
+        React3,
+        UnknownOwner
+      )();
+      var unknownOwnerDebugTask = createTask(getTaskName(UnknownOwner));
+      var didWarnAboutKeySpread = {};
+      exports.Fragment = REACT_FRAGMENT_TYPE;
+      exports.jsx = function(type, config, maybeKey) {
+        var trackActualOwner = 1e4 > ReactSharedInternals.recentlyCreatedOwnerStacks++;
+        return jsxDEVImpl(
+          type,
+          config,
+          maybeKey,
+          false,
+          trackActualOwner ? Error("react-stack-top-frame") : unknownOwnerDebugStack,
+          trackActualOwner ? createTask(getTaskName(type)) : unknownOwnerDebugTask
+        );
+      };
+      exports.jsxs = function(type, config, maybeKey) {
+        var trackActualOwner = 1e4 > ReactSharedInternals.recentlyCreatedOwnerStacks++;
+        return jsxDEVImpl(
+          type,
+          config,
+          maybeKey,
+          true,
+          trackActualOwner ? Error("react-stack-top-frame") : unknownOwnerDebugStack,
+          trackActualOwner ? createTask(getTaskName(type)) : unknownOwnerDebugTask
+        );
+      };
+    })();
+  }
+});
+
+// node_modules/react/jsx-runtime.js
+var require_jsx_runtime = __commonJS({
+  "node_modules/react/jsx-runtime.js"(exports, module2) {
+    "use strict";
+    if (false) {
+      module2.exports = null;
+    } else {
+      module2.exports = require_react_jsx_runtime_development();
+    }
+  }
+});
+
 // src/main.ts
 var main_exports = {};
 __export(main_exports, {
@@ -21737,91 +22012,791 @@ __export(main_exports, {
   default: () => LearningOSPlugin
 });
 module.exports = __toCommonJS(main_exports);
-var import_obsidian = require("obsidian");
+var import_obsidian3 = require("obsidian");
 var React2 = __toESM(require_react());
 var import_client = __toESM(require_client());
 
 // src/ui/App.tsx
-var React = __toESM(require_react());
 var import_react = __toESM(require_react());
-var ChatTab = () => /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", height: "100%", border: "2px solid red", padding: "10px", boxSizing: "border-box" } }, /* @__PURE__ */ React.createElement("div", { style: { flexGrow: 1, overflowY: "auto", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { backgroundColor: "#e0f7fa", padding: "8px", borderRadius: "5px", marginBottom: "5px", border: "1px solid #00bcd4", color: "#006064" } }, "Hello! How can I help you learn today?"), /* @__PURE__ */ React.createElement("div", { style: { backgroundColor: "#c8e6c9", padding: "8px", borderRadius: "5px", marginBottom: "5px", border: "1px solid #4caf50", alignSelf: "flex-end", color: "#1b5e20" } }, "I need help with Calculus."), /* @__PURE__ */ React.createElement("div", { style: { backgroundColor: "#e0f7fa", padding: "8px", borderRadius: "5px", marginBottom: "5px", border: "1px solid #00bcd4", color: "#006064" } }, "Sure, what specifically about Calculus?")), /* @__PURE__ */ React.createElement(
-  "input",
+var import_jsx_runtime = __toESM(require_jsx_runtime());
+var Icon = ({ d, size = 18 }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+  "svg",
   {
-    type: "text",
-    placeholder: "Type a message... (Disabled)",
-    disabled: true,
-    style: { width: "100%", padding: "10px", border: "2px solid orange", boxSizing: "border-box", backgroundColor: "#fff3e0" }
+    width: size,
+    height: size,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d })
   }
-));
-var PreferencesTab = () => /* @__PURE__ */ React.createElement("div", { style: { border: "2px solid green", padding: "10px", boxSizing: "border-box" } }, /* @__PURE__ */ React.createElement("h3", { style: { margin: "0 0 10px 0", color: "green" } }, "Learning Preferences"), [
-  "Socratic Mode",
-  "Metaphor Engine",
-  "Visual Bias",
-  "Spaced Repetition Integration",
-  "Feynman Technique Evaluator"
-].map((pref) => /* @__PURE__ */ React.createElement("div", { key: pref, style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px", padding: "5px", border: "1px dashed darkgreen", backgroundColor: "#f1f8e9" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#336600", fontWeight: "bold" } }, pref), /* @__PURE__ */ React.createElement("input", { type: "checkbox", style: { transform: "scale(1.5)", cursor: "not-allowed" }, disabled: true }))));
-var UploadTab = () => /* @__PURE__ */ React.createElement("div", { style: { border: "2px solid blue", padding: "10px", boxSizing: "border-box", height: "100%", display: "flex", flexDirection: "column" } }, /* @__PURE__ */ React.createElement("h3", { style: { margin: "0 0 10px 0", color: "blue" } }, "Upload Materials"), /* @__PURE__ */ React.createElement("div", { style: {
-  border: "4px dashed #2196f3",
+);
+var Icons = {
+  home: "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10",
+  chat: "M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z",
+  skills: "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z",
+  map: "M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z M8 2v16 M16 6v16",
+  subjects: "M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z",
+  settings: "M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z",
+  generate: "M13 2L3 14h9l-1 8 10-12h-9l1-8z",
+  check: "M20 6L9 17l-5-5",
+  star: "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z",
+  plus: "M12 5v14 M5 12h14",
+  feynman: "M9 11l3 3L22 4 M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11",
+  upload: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M17 8l-5-5-5 5 M12 3v12",
+  brain: "M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.46 2.5 2.5 0 0 1-1.98-3 2.5 2.5 0 0 1-1.32-4.24 3 3 0 0 1 .34-5.58 2.5 2.5 0 0 1 1.96-4.02A2.5 2.5 0 0 1 9.5 2z M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.46 2.5 2.5 0 0 0 1.98-3 2.5 2.5 0 0 0 1.32-4.24 3 3 0 0 0-.34-5.58 2.5 2.5 0 0 0-1.96-4.02A2.5 2.5 0 0 0 14.5 2z",
+  send: "M22 2L11 13 M22 2l-7 20-4-9-9-4 20-7z"
+};
+var accentColor = "var(--interactive-accent)";
+var bgPrimary = "var(--background-primary)";
+var bgSecondary = "var(--background-secondary)";
+var bgTertiary = "var(--background-secondary-alt)";
+var border = "var(--background-modifier-border)";
+var textNormal = "var(--text-normal)";
+var textMuted = "var(--text-muted)";
+var card = {
+  background: bgSecondary,
+  border: `1px solid ${border}`,
   borderRadius: "10px",
-  padding: "40px",
-  textAlign: "center",
-  flexGrow: 1,
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "center",
+  padding: "18px"
+};
+var pill = (color, bg) => ({
+  display: "inline-flex",
   alignItems: "center",
-  backgroundColor: "#e3f2fd"
-} }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "30px", color: "#1976d2" } }, "\u{1F4C1}"), /* @__PURE__ */ React.createElement("p", { style: { color: "#0d47a1", fontWeight: "bold" } }, "Drag & Drop Files Here"), /* @__PURE__ */ React.createElement("button", { disabled: true, style: { padding: "10px 20px", backgroundColor: "#1976d2", color: "white", border: "none", borderRadius: "5px", cursor: "not-allowed", marginTop: "10px" } }, "Mock Upload Button")));
-var SkillsTab = () => /* @__PURE__ */ React.createElement("div", { style: { border: "2px solid purple", padding: "10px", boxSizing: "border-box" } }, /* @__PURE__ */ React.createElement("h3", { style: { margin: "0 0 10px 0", color: "purple" } }, "Agentic Skills"), [
-  { name: "Visual Math Models", status: "Unrefined", stars: "\u2B50\u2606\u2606\u2606\u2606" },
-  { name: "Historical Timeline Generator", status: "Mastered", stars: "\u2B50\u2B50\u2B50\u2B50\u2B50" },
-  { name: "Code Snippet Explainer", status: "Refining", stars: "\u2B50\u2B50\u2B50\u2606\u2606" }
-].map((skill) => /* @__PURE__ */ React.createElement("div", { key: skill.name, style: { border: "2px solid #ce93d8", padding: "10px", marginBottom: "10px", borderRadius: "5px", backgroundColor: "#f3e5f5" } }, /* @__PURE__ */ React.createElement("h4", { style: { margin: "0 0 5px 0", color: "#4a148c" } }, skill.name), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center" } }, /* @__PURE__ */ React.createElement("span", { style: {
-  padding: "3px 8px",
-  borderRadius: "12px",
-  fontSize: "12px",
-  fontWeight: "bold",
-  backgroundColor: skill.status === "Mastered" ? "#4caf50" : skill.status === "Unrefined" ? "#ff9800" : "#2196f3",
-  color: "white"
-} }, skill.status), /* @__PURE__ */ React.createElement("span", { style: { color: "#fbc02d", textShadow: "1px 1px 1px #ccc" } }, skill.stars)))));
-var App = () => {
-  const [activeTab, setActiveTab] = (0, import_react.useState)("chat");
-  const tabs = [
-    { id: "chat", label: "Chat", color: "red" },
-    { id: "prefs", label: "Preferences", color: "green" },
-    { id: "upload", label: "Upload", color: "blue" },
-    { id: "skills", label: "Skills", color: "purple" }
-  ];
-  return /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", height: "100%", border: "4px solid black", padding: "5px", boxSizing: "border-box", backgroundColor: "white" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", borderBottom: "2px solid black", marginBottom: "10px" } }, tabs.map((tab) => /* @__PURE__ */ React.createElement(
-    "button",
+  gap: "5px",
+  padding: "3px 10px",
+  borderRadius: "20px",
+  fontSize: "11px",
+  fontWeight: 600,
+  color,
+  background: bg
+});
+var btn = (primary = true) => ({
+  display: "inline-flex",
+  alignItems: "center",
+  gap: "6px",
+  padding: "8px 16px",
+  borderRadius: "7px",
+  fontSize: "13px",
+  fontWeight: 600,
+  cursor: "pointer",
+  border: "none",
+  background: primary ? accentColor : bgTertiary,
+  color: primary ? "var(--text-on-accent)" : textNormal,
+  transition: "opacity 0.15s"
+});
+var HomePage = () => {
+  const [topic, setTopic] = (0, import_react.useState)("");
+  const stats = [
     {
-      key: tab.id,
-      onClick: () => setActiveTab(tab.id),
-      style: {
-        flex: 1,
-        padding: "10px 5px",
-        cursor: "pointer",
-        backgroundColor: activeTab === tab.id ? tab.color : "#e0e0e0",
-        color: activeTab === tab.id ? "white" : "black",
-        border: `2px solid ${tab.color}`,
-        borderBottom: "none",
-        fontWeight: "bold",
-        borderTopLeftRadius: "5px",
-        borderTopRightRadius: "5px",
-        marginRight: "2px"
-      }
+      label: "Active Subject",
+      value: "Calculus",
+      sub: "12 notes \xB7 3 concepts",
+      icon: Icons.subjects,
+      color: "#7c6af7"
     },
-    tab.label
-  ))), /* @__PURE__ */ React.createElement("div", { style: { flexGrow: 1, overflowY: "auto" } }, activeTab === "chat" && /* @__PURE__ */ React.createElement(ChatTab, null), activeTab === "prefs" && /* @__PURE__ */ React.createElement(PreferencesTab, null), activeTab === "upload" && /* @__PURE__ */ React.createElement(UploadTab, null), activeTab === "skills" && /* @__PURE__ */ React.createElement(SkillsTab, null)));
+    {
+      label: "Active Skills",
+      value: "4 / 7",
+      sub: "Metaphor Engine, Visual Bias +2",
+      icon: Icons.skills,
+      color: "#f97316"
+    },
+    {
+      label: "Avg Mastery",
+      value: "58%",
+      sub: "Derivatives: 80% \xB7 Limits: 35%",
+      icon: Icons.check,
+      color: "#22c55e",
+      progress: 58
+    },
+    {
+      label: "Next Review",
+      value: "Limits.md",
+      sub: "Spaced repetition due today",
+      icon: Icons.brain,
+      color: "#38bdf8"
+    }
+  ];
+  const recentArtifacts = [
+    { title: "Derivatives", subject: "Calculus", mastery: 80, status: "in-progress" },
+    { title: "Chain Rule", subject: "Calculus", mastery: 45, status: "needs-review" },
+    { title: "Limits", subject: "Calculus", mastery: 35, status: "needs-review" }
+  ];
+  const masteryColor = (m) => m >= 75 ? "#22c55e" : m >= 50 ? "#f97316" : "#ef4444";
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: "24px" }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between" }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", { style: { margin: 0, fontSize: "24px", color: textNormal, fontWeight: 700 }, children: "Learning OS" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "4px 0 0", color: textMuted, fontSize: "13px" }, children: "Your personal AI learning environment" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: pill("#22c55e", "rgba(34,197,94,0.15)"), children: "\u25CF Backend: Connected" })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px" }, children: stats.map((s) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: card, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start" }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { color: textMuted, fontSize: "12px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }, children: s.label }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { color: s.color }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, { d: s.icon, size: 16 }) })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: "22px", fontWeight: 700, color: textNormal, margin: "8px 0 4px" }, children: s.value }),
+      s.progress !== void 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { height: "4px", background: bgTertiary, borderRadius: "2px", margin: "6px 0 4px" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { height: "100%", width: `${s.progress}%`, background: "#22c55e", borderRadius: "2px" } }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: "12px", color: textMuted }, children: s.sub })
+    ] }, s.label)) }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: card, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { style: { margin: "0 0 12px", fontSize: "15px", color: textNormal }, children: "\u26A1 Quick Generate" }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: "10px" }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+          "input",
+          {
+            type: "text",
+            placeholder: "Enter a topic to generate a learning artifact...",
+            value: topic,
+            onChange: (e) => setTopic(e.target.value),
+            style: {
+              flex: 1,
+              padding: "10px 14px",
+              borderRadius: "8px",
+              border: `1px solid ${border}`,
+              background: bgTertiary,
+              color: textNormal,
+              fontSize: "13px",
+              outline: "none"
+            }
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { style: btn(true), children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, { d: Icons.generate, size: 14 }),
+          " Generate"
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", gap: "8px", marginTop: "10px" }, children: ["Derivatives", "Integration", "Chain Rule", "L'H\xF4pital's Rule"].map((t) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+        "button",
+        {
+          onClick: () => setTopic(t),
+          style: { ...btn(false), padding: "4px 10px", fontSize: "12px", borderRadius: "20px" },
+          children: t
+        },
+        t
+      )) })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { style: { margin: "0 0 12px", fontSize: "15px", color: textNormal }, children: "\u{1F4C4} Recent Artifacts" }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", flexDirection: "column", gap: "8px" }, children: recentArtifacts.map((a) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { ...card, padding: "12px 16px", display: "flex", alignItems: "center", gap: "14px", cursor: "pointer" }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { width: "36px", height: "36px", borderRadius: "8px", background: bgTertiary, display: "flex", alignItems: "center", justifyContent: "center", color: textMuted, flexShrink: 0 }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, { d: Icons.subjects, size: 16 }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1 }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontWeight: 600, fontSize: "14px", color: textNormal }, children: a.title }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: "12px", color: textMuted }, children: a.subject })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { textAlign: "right" }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontWeight: 700, fontSize: "14px", color: masteryColor(a.mastery) }, children: [
+            a.mastery,
+            "%"
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: "11px", color: textMuted }, children: "mastery" })
+        ] })
+      ] }, a.title)) })
+    ] })
+  ] });
+};
+var ChatPage = () => {
+  const [messages, setMessages] = (0, import_react.useState)([
+    { id: "1", role: "agent", content: "Hello! I'm your Learning OS preferences agent. I can help you create new learning skills, adjust your pedagogy modes, or discuss your study strategy. What would you like to work on?" }
+  ]);
+  const [input, setInput] = (0, import_react.useState)("");
+  const [loading, setLoading] = (0, import_react.useState)(false);
+  const chatEndRef = React.useRef(null);
+  React.useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+  const send = () => {
+    if (!input.trim())
+      return;
+    const userMsg = { id: Date.now().toString(), role: "user", content: input };
+    setMessages((p) => [...p, userMsg]);
+    setInput("");
+    setLoading(true);
+    setTimeout(() => {
+      setMessages((p) => [...p, {
+        id: (Date.now() + 1).toString(),
+        role: "agent",
+        content: "I've received your request. Once the backend is connected, I'll spin up a Researcher agent and a Reasoner agent to build that skill for you. Stay tuned!"
+      }]);
+      setLoading(false);
+    }, 1200);
+  };
+  const suggestions = [
+    "Make my notes more visual",
+    "Add interactive quizzes",
+    "Enable Socratic mode",
+    "Create a metaphor engine for basketball"
+  ];
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", flexDirection: "column", height: "100%", gap: "0" }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: "20px" }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { style: { margin: 0, fontSize: "20px", color: textNormal }, children: "\u{1F916} Preferences Agent" }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "4px 0 0", color: textMuted, fontSize: "13px" }, children: "Chat with the AI to evolve your learning skills and preferences" })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1, display: "flex", flexDirection: "column", ...card, minHeight: 0 }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1, overflowY: "auto", display: "flex", flexDirection: "column", gap: "14px", paddingBottom: "12px" }, children: [
+        messages.map((msg) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", flexDirection: "column", alignItems: msg.role === "user" ? "flex-end" : "flex-start" }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: "11px", color: textMuted, marginBottom: "4px", paddingLeft: msg.role === "user" ? 0 : "4px" }, children: msg.role === "user" ? "You" : "\u{1F9E0} Learning OS" }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
+            padding: "10px 14px",
+            borderRadius: msg.role === "user" ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
+            background: msg.role === "user" ? accentColor : bgTertiary,
+            color: msg.role === "user" ? "var(--text-on-accent)" : textNormal,
+            fontSize: "13px",
+            lineHeight: "1.6",
+            maxWidth: "85%",
+            border: msg.role === "agent" ? `1px solid ${border}` : "none"
+          }, children: msg.content })
+        ] }, msg.id)),
+        loading && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: "8px", color: textMuted, fontSize: "13px" }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "\u{1F9E0} Learning OS" }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { letterSpacing: "3px", animation: "none" }, children: "\u25CF\u25CF\u25CF" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { ref: chatEndRef })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", flexWrap: "wrap", gap: "6px", margin: "10px 0" }, children: suggestions.map((s) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+        "button",
+        {
+          onClick: () => setInput(s),
+          style: { ...btn(false), padding: "4px 10px", fontSize: "11px", borderRadius: "20px" },
+          children: s
+        },
+        s
+      )) }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: "8px", borderTop: `1px solid ${border}`, paddingTop: "12px" }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+          "input",
+          {
+            type: "text",
+            value: input,
+            onChange: (e) => setInput(e.target.value),
+            onKeyDown: (e) => e.key === "Enter" && send(),
+            placeholder: "e.g. Make my notes more visual...",
+            style: {
+              flex: 1,
+              padding: "10px 14px",
+              borderRadius: "8px",
+              border: `1px solid ${border}`,
+              background: bgTertiary,
+              color: textNormal,
+              fontSize: "13px",
+              outline: "none"
+            }
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: send, disabled: loading, style: btn(true), children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, { d: Icons.send, size: 14 }) })
+      ] })
+    ] })
+  ] });
+};
+var SkillsPage = () => {
+  const [skills, setSkills] = (0, import_react.useState)([
+    { id: "socratic", name: "Socratic Mode", status: "mastered", active: true, rating: 4.9, iterations: 24, desc: "AI generates guiding questions instead of direct answers." },
+    { id: "metaphor", name: "Metaphor Engine", status: "mastered", active: true, rating: 4.7, iterations: 18, desc: "Maps abstract concepts to your personal hobbies and interests." },
+    { id: "visual_bias", name: "Visual Bias", status: "mastered", active: false, rating: 4.5, iterations: 12, desc: "Forces Mermaid diagrams and charts over plain text." },
+    { id: "spaced_rep", name: "Spaced Repetition", status: "mastered", active: true, rating: 4.6, iterations: 9, desc: "Auto-generates Anki-style flashcards at the bottom of notes." },
+    { id: "feynman", name: "Feynman Evaluator", status: "unrefined", active: true, rating: 3.2, iterations: 4, desc: "Interactive block where you explain the concept; AI grades your gaps." },
+    { id: "visual_math", name: "Visual Math Models", status: "unrefined", active: false, rating: 2.8, iterations: 2, desc: "Generates interactive visual math diagrams using MathJax." },
+    { id: "confidence", name: "Confidence Highlighting", status: "unrefined", active: false, rating: 0, iterations: 0, desc: "Highlights text by confidence: source-verified vs AI-generated." }
+  ]);
+  const toggle = (id) => setSkills((s) => s.map((sk) => sk.id === id ? { ...sk, active: !sk.active } : sk));
+  const statusStyle = (st) => ({
+    ...pill(
+      st === "mastered" ? "#22c55e" : st === "unrefined" ? "#f97316" : "#38bdf8",
+      st === "mastered" ? "rgba(34,197,94,0.15)" : st === "unrefined" ? "rgba(249,115,22,0.15)" : "rgba(56,189,248,0.15)"
+    )
+  });
+  const stars = (r) => "\u2605".repeat(Math.round(r)) + "\u2606".repeat(5 - Math.round(r));
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: "20px" }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start" }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { style: { margin: 0, fontSize: "20px", color: textNormal }, children: "\u{1F9EA} Skills Lab" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "4px 0 0", color: textMuted, fontSize: "13px" }, children: "Toggle and manage your AI learning skills. Request new ones via the Chat." })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { style: btn(true), children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, { d: Icons.plus, size: 14 }),
+        " Request New Skill"
+      ] })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: "12px", flexWrap: "wrap" }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: statusStyle("mastered"), children: "\u25CF Mastered" }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: statusStyle("unrefined"), children: "\u25CF Unrefined" }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { ...card, padding: "3px 10px", fontSize: "11px", fontWeight: 600, color: textMuted }, children: [
+        skills.filter((s) => s.active).length,
+        " / ",
+        skills.length,
+        " active"
+      ] })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", flexDirection: "column", gap: "10px" }, children: skills.map((skill) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { ...card, display: "flex", alignItems: "center", gap: "16px", opacity: skill.active ? 1 : 0.65 }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: () => toggle(skill.id), style: {
+        width: "40px",
+        height: "22px",
+        borderRadius: "11px",
+        border: "none",
+        cursor: "pointer",
+        flexShrink: 0,
+        background: skill.active ? accentColor : bgTertiary,
+        position: "relative",
+        transition: "background 0.2s"
+      }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
+        position: "absolute",
+        top: "3px",
+        left: skill.active ? "21px" : "3px",
+        width: "16px",
+        height: "16px",
+        borderRadius: "50%",
+        background: "white",
+        transition: "left 0.2s"
+      } }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1, minWidth: 0 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: "8px", marginBottom: "3px" }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontWeight: 600, fontSize: "14px", color: textNormal }, children: skill.name }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: statusStyle(skill.status), children: skill.status })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: "12px", color: textMuted, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }, children: skill.desc })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { textAlign: "right", flexShrink: 0 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { color: "#f59e0b", fontSize: "13px", letterSpacing: "1px" }, children: stars(skill.rating) }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: "11px", color: textMuted }, children: [
+          skill.iterations,
+          " uses"
+        ] })
+      ] })
+    ] }, skill.id)) }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { ...card, background: "rgba(124,106,247,0.08)", border: "1px solid rgba(124,106,247,0.3)", padding: "14px 16px" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", { style: { margin: 0, fontSize: "13px", color: textNormal, lineHeight: "1.6" }, children: [
+      "\u{1F4A1} ",
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "How skills evolve:" }),
+      ` "Unrefined" skills collect your micro-feedback after each use. Once they average >4.5 stars over 3+ uses, they're automatically promoted to "Mastered" and stop asking for feedback.`
+    ] }) })
+  ] });
+};
+var MapPage = () => {
+  const nodes = [
+    { id: "limits", label: "Limits", mastery: 35, x: 200, y: 60 },
+    { id: "derivatives", label: "Derivatives", mastery: 80, x: 200, y: 200 },
+    { id: "chain", label: "Chain Rule", mastery: 45, x: 80, y: 340 },
+    { id: "product", label: "Product Rule", mastery: 60, x: 320, y: 340 },
+    { id: "integrals", label: "Integrals", mastery: 0, x: 200, y: 480 }
+  ];
+  const edges = [
+    { from: "limits", to: "derivatives" },
+    { from: "derivatives", to: "chain" },
+    { from: "derivatives", to: "product" },
+    { from: "chain", to: "integrals" },
+    { from: "product", to: "integrals" }
+  ];
+  const nodeById = (id) => nodes.find((n) => n.id === id);
+  const masteryColor = (m) => m === 0 ? "#6b7280" : m < 40 ? "#ef4444" : m < 65 ? "#f97316" : m < 85 ? "#eab308" : "#22c55e";
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: "20px" }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start" }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { style: { margin: 0, fontSize: "20px", color: textNormal }, children: "\u{1F5FA}\uFE0F Progression Map" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "4px 0 0", color: textMuted, fontSize: "13px" }, children: "Visual topic map for your active subject \xB7 nodes colored by mastery level" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { style: btn(true), children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, { d: Icons.generate, size: 14 }),
+        " Regenerate Map"
+      ] })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { ...card, padding: "0", overflow: "hidden" }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "12px 16px", borderBottom: `1px solid ${border}`, display: "flex", alignItems: "center", gap: "8px" }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: "13px", fontWeight: 600, color: textNormal }, children: "Calculus \xB7 ProgressionMap.canvas" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: pill(textMuted, bgTertiary), children: "Preview" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { position: "relative", height: "560px", background: bgTertiary, overflow: "hidden" }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", { width: "100%", height: "100%", style: { position: "absolute", top: 0, left: 0 }, children: [
+          edges.map((e) => {
+            const f = nodeById(e.from), t = nodeById(e.to);
+            return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+              "line",
+              {
+                x1: f.x + 60,
+                y1: f.y + 24,
+                x2: t.x + 60,
+                y2: t.y + 24,
+                stroke: border,
+                strokeWidth: "2",
+                strokeDasharray: "4 4",
+                markerEnd: "url(#arrow)"
+              },
+              `${e.from}-${e.to}`
+            );
+          }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("defs", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("marker", { id: "arrow", markerWidth: "8", markerHeight: "8", refX: "6", refY: "3", orient: "auto", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M0,0 L0,6 L8,3 z", fill: textMuted }) }) })
+        ] }),
+        nodes.map((n) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
+          position: "absolute",
+          left: n.x,
+          top: n.y,
+          width: "120px",
+          textAlign: "center"
+        }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
+          borderRadius: "10px",
+          padding: "10px 14px",
+          background: masteryColor(n.mastery) + "33",
+          border: `2px solid ${masteryColor(n.mastery)}`,
+          color: textNormal,
+          fontSize: "13px",
+          fontWeight: 600
+        }, children: [
+          n.label,
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: "11px", color: masteryColor(n.mastery), marginTop: "4px" }, children: n.mastery === 0 ? "Not started" : `${n.mastery}%` })
+        ] }) }, n.id))
+      ] })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", gap: "10px", flexWrap: "wrap" }, children: [["#6b7280", "Not started"], ["#ef4444", "0\u201339%"], ["#f97316", "40\u201364%"], ["#eab308", "65\u201384%"], ["#22c55e", "85\u2013100%"]].map(([c, l]) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: pill(c, c + "22"), children: [
+      "\u25A0 ",
+      l
+    ] }, l)) })
+  ] });
+};
+var SubjectsPage = () => {
+  const [activeSubject, setActiveSubject] = (0, import_react.useState)("Calculus");
+  const subjects = [
+    { name: "Calculus", notes: 12, mastery: 58, exam: "2026-11-15", goals: ["Pass AP Exam", "Understand intuition behind formulas"], gaps: "Struggling heavily with the Chain Rule." },
+    { name: "Linear Algebra", notes: 8, mastery: 72, exam: "2026-12-01", goals: ["Understand matrix operations", "Master eigenvalues"], gaps: "Confused about basis changes." },
+    { name: "Physics", notes: 5, mastery: 30, exam: "2027-01-20", goals: ["Master Newtonian mechanics"], gaps: "Weak on rotational dynamics." }
+  ];
+  const selected = subjects.find((s) => s.name === activeSubject);
+  const masteryColor = (m) => m < 40 ? "#ef4444" : m < 65 ? "#f97316" : "#22c55e";
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: "20px", height: "100%" }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { width: "200px", flexShrink: 0, display: "flex", flexDirection: "column", gap: "8px" }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { style: { margin: "0 0 12px", fontSize: "16px", color: textNormal }, children: "\u{1F4DA} Subjects" }),
+      subjects.map((s) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: () => setActiveSubject(s.name), style: {
+        ...btn(activeSubject === s.name),
+        width: "100%",
+        justifyContent: "flex-start",
+        padding: "10px 14px",
+        borderRadius: "8px",
+        background: activeSubject === s.name ? accentColor : bgSecondary,
+        border: `1px solid ${activeSubject === s.name ? accentColor : border}`
+      }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { textAlign: "left" }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: "13px", fontWeight: 600 }, children: s.name }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: "11px", opacity: 0.7, marginTop: "2px" }, children: [
+          s.notes,
+          " notes \xB7 ",
+          s.mastery,
+          "%"
+        ] })
+      ] }) }, s.name)),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { style: { ...btn(false), width: "100%", marginTop: "4px", justifyContent: "center", borderRadius: "8px", border: `1px dashed ${border}` }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, { d: Icons.plus, size: 14 }),
+        " New Subject"
+      ] })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1, display: "flex", flexDirection: "column", gap: "16px", overflowY: "auto" }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center" }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { style: { margin: 0, fontSize: "20px", color: textNormal }, children: selected.name }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: pill("#22c55e", "rgba(34,197,94,0.15)"), children: "Active Subject" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", gap: "12px" }, children: [
+        { label: "Notes", value: selected.notes.toString() },
+        { label: "Mastery", value: selected.mastery + "%", color: masteryColor(selected.mastery) },
+        { label: "Exam", value: selected.exam }
+      ].map((s) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { ...card, flex: 1, textAlign: "center" }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: "11px", color: textMuted, textTransform: "uppercase", letterSpacing: "0.05em" }, children: s.label }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: "20px", fontWeight: 700, color: s.color ?? textNormal, marginTop: "6px" }, children: s.value })
+      ] }, s.label)) }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: card, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", { style: { margin: "0 0 10px", color: textNormal, fontSize: "14px" }, children: "\u{1F3AF} Goals" }),
+        selected.goals.map((g) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: "8px", padding: "6px 0", borderBottom: `1px solid ${border}`, fontSize: "13px", color: textNormal }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, { d: Icons.check, size: 14 }),
+          g
+        ] }, g))
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: card, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", { style: { margin: "0 0 8px", color: textNormal, fontSize: "14px" }, children: "\u26A0\uFE0F Current Gaps" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: 0, fontSize: "13px", color: textMuted, lineHeight: "1.6" }, children: selected.gaps })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: card, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", { style: { margin: "0 0 8px", color: textNormal, fontSize: "14px" }, children: "\u{1F4CB} Subject Context File" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontFamily: "monospace", fontSize: "12px", color: textMuted, background: bgTertiary, padding: "12px", borderRadius: "6px", lineHeight: "1.8" }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { color: "#7c6af7" }, children: "---" }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("br", {}),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { color: "#38bdf8" }, children: "subject_name:" }),
+          " ",
+          selected.name,
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("br", {}),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { color: "#38bdf8" }, children: "goals:" }),
+          " ",
+          JSON.stringify(selected.goals),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("br", {}),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { color: "#38bdf8" }, children: "exam_date:" }),
+          " ",
+          selected.exam,
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("br", {}),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { color: "#7c6af7" }, children: "---" })
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: "10px" }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { style: btn(true), children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, { d: Icons.map, size: 14 }),
+          " Open Canvas Map"
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { style: btn(false), children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, { d: Icons.generate, size: 14 }),
+          " Generate Note"
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { style: btn(false), children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, { d: Icons.upload, size: 14 }),
+          " Upload Materials"
+        ] })
+      ] })
+    ] })
+  ] });
+};
+var SettingsPage = () => {
+  const [serverUrl, setServerUrl] = (0, import_react.useState)("http://localhost:8000");
+  const [apiBase, setApiBase] = (0, import_react.useState)("https://api.openai.com/v1");
+  const [apiKey, setApiKey] = (0, import_react.useState)("");
+  const [subject, setSubject] = (0, import_react.useState)("Calculus");
+  const [status, setStatus] = (0, import_react.useState)("idle");
+  const testConnection = () => {
+    setStatus("testing");
+    setTimeout(() => setStatus("ok"), 1500);
+  };
+  const statusPill = () => {
+    if (status === "ok")
+      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: pill("#22c55e", "rgba(34,197,94,0.15)"), children: "\u2713 Connected" });
+    if (status === "fail")
+      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: pill("#ef4444", "rgba(239,68,68,0.15)"), children: "\u2717 Failed" });
+    if (status === "testing")
+      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: pill("#f97316", "rgba(249,115,22,0.15)"), children: "\u25CF Testing\u2026" });
+    return null;
+  };
+  const field = (label, desc, value, onChange, type = "text") => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: "20px" }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { display: "block", fontSize: "13px", fontWeight: 600, color: textNormal, marginBottom: "4px" }, children: label }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "0 0 8px", fontSize: "12px", color: textMuted }, children: desc }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+      "input",
+      {
+        type,
+        value,
+        onChange: (e) => onChange(e.target.value),
+        style: {
+          width: "100%",
+          padding: "9px 12px",
+          borderRadius: "7px",
+          border: `1px solid ${border}`,
+          background: bgTertiary,
+          color: textNormal,
+          fontSize: "13px",
+          outline: "none",
+          boxSizing: "border-box"
+        }
+      }
+    )
+  ] });
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: "20px" }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { style: { margin: 0, fontSize: "20px", color: textNormal }, children: "\u2699\uFE0F Settings" }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "4px 0 0", color: textMuted, fontSize: "13px" }, children: "Configure your backend connection and LLM endpoints" })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: card, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { style: { margin: 0, fontSize: "15px", color: textNormal }, children: "\u{1F50C} Backend Connection" }),
+        statusPill()
+      ] }),
+      field("Python Backend Server URL", "The local URL where your FastAPI server is running.", serverUrl, setServerUrl),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: testConnection, disabled: status === "testing", style: btn(true), children: status === "testing" ? "Testing\u2026" : "Test Connection" })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: card, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { style: { margin: "0 0 16px", fontSize: "15px", color: textNormal }, children: "\u{1F9E0} LLM Configuration" }),
+      field("API Endpoint (OpenAI Compatible)", "For custom model pooling (AIClient2API, LiteLLM). Leave default for OpenAI.", apiBase, setApiBase),
+      field("API Key", "Sent securely via headers to your local Python backend \u2014 never stored in plain text.", apiKey, setApiKey, "password")
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: card, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { style: { margin: "0 0 16px", fontSize: "15px", color: textNormal }, children: "\u{1F4DA} Active Subject" }),
+      field("Active Subject Path", "Path to the currently active subject folder inside your vault.", subject, setSubject)
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { style: btn(true), children: "Save Settings" })
+  ] });
+};
+var navItems = [
+  { id: "home", label: "Home", icon: Icons.home },
+  { id: "chat", label: "Chat", icon: Icons.chat },
+  { id: "skills", label: "Skills Lab", icon: Icons.skills },
+  { id: "map", label: "Prog. Map", icon: Icons.map },
+  { id: "subjects", label: "Subjects", icon: Icons.subjects },
+  { id: "settings", label: "Settings", icon: Icons.settings }
+];
+var App = () => {
+  const [page, setPage] = (0, import_react.useState)("home");
+  const pageComponent = {
+    home: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(HomePage, {}),
+    chat: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChatPage, {}),
+    skills: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SkillsPage, {}),
+    map: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MapPage, {}),
+    subjects: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SubjectsPage, {}),
+    settings: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SettingsPage, {})
+  };
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
+    display: "flex",
+    height: "100%",
+    background: bgPrimary,
+    color: textNormal,
+    fontFamily: "var(--font-interface)",
+    overflow: "hidden"
+  }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("nav", { style: {
+      width: "168px",
+      flexShrink: 0,
+      borderRight: `1px solid ${border}`,
+      background: bgSecondary,
+      display: "flex",
+      flexDirection: "column",
+      padding: "16px 10px",
+      gap: "4px"
+    }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: "8px", padding: "6px 8px", marginBottom: "12px" }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: "20px" }, children: "\u{1F9E0}" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontWeight: 700, fontSize: "14px", color: textNormal }, children: "Learning OS" })
+      ] }),
+      navItems.map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => setPage(item.id), style: {
+        display: "flex",
+        alignItems: "center",
+        gap: "10px",
+        padding: "9px 12px",
+        borderRadius: "8px",
+        border: "none",
+        cursor: "pointer",
+        background: page === item.id ? accentColor : "transparent",
+        color: page === item.id ? "var(--text-on-accent)" : textMuted,
+        fontSize: "13px",
+        fontWeight: page === item.id ? 600 : 400,
+        textAlign: "left",
+        width: "100%",
+        transition: "background 0.15s, color 0.15s"
+      }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, { d: item.icon, size: 16 }),
+        item.label
+      ] }, item.id)),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: "auto", padding: "8px", fontSize: "11px", color: textMuted }, children: "v1.0.0 \xB7 Mock UI" })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("main", { style: {
+      flex: 1,
+      overflowY: "auto",
+      padding: "28px 32px",
+      display: "flex",
+      flexDirection: "column"
+    }, children: pageComponent[page] })
+  ] });
+};
+
+// src/settings/SettingsTab.ts
+var import_obsidian2 = require("obsidian");
+
+// src/api/backendClient.ts
+var import_obsidian = require("obsidian");
+var BackendClient = class {
+  settings = null;
+  updateConfig(settings) {
+    this.settings = settings;
+  }
+  getHeaders() {
+    if (!this.settings)
+      throw new Error("Settings not loaded in backend client.");
+    return {
+      "Content-Type": "application/json",
+      "X-API-Key": this.settings.apiKey,
+      "X-API-Base": this.settings.apiEndpoint
+    };
+  }
+  async checkHealth() {
+    if (!this.settings?.pythonServerUrl)
+      return false;
+    try {
+      const req = {
+        url: `${this.settings.pythonServerUrl}/health`,
+        method: "GET"
+      };
+      const response = await (0, import_obsidian.requestUrl)(req);
+      return response.status === 200;
+    } catch (error) {
+      console.error("LearningOS: Backend health check failed.", error);
+      return false;
+    }
+  }
+  // Example of future endpoints we will need
+  async requestNewSkill(userPrompt) {
+    if (!this.settings)
+      throw new Error("Settings not loaded");
+    const req = {
+      url: `${this.settings.pythonServerUrl}/skills/request_new`,
+      method: "POST",
+      headers: this.getHeaders(),
+      body: JSON.stringify({ prompt: userPrompt })
+    };
+    const response = await (0, import_obsidian.requestUrl)(req);
+    return response.json;
+  }
+};
+var backendClient = new BackendClient();
+
+// src/settings/SettingsTab.ts
+var LearningOSSettingTab = class extends import_obsidian2.PluginSettingTab {
+  plugin;
+  constructor(app, plugin) {
+    super(app, plugin);
+    this.plugin = plugin;
+  }
+  display() {
+    const { containerEl } = this;
+    containerEl.empty();
+    containerEl.createEl("h2", { text: "Learning OS Settings" });
+    containerEl.createEl("p", { text: "Configure the connection to the Python intelligence backend and your LLM endpoints." });
+    new import_obsidian2.Setting(containerEl).setName("Python Backend Server URL").setDesc("The local URL where your FastAPI server is running (default: http://localhost:8000)").addText((text) => text.setPlaceholder("http://localhost:8000").setValue(this.plugin.settings.pythonServerUrl).onChange(async (value) => {
+      this.plugin.settings.pythonServerUrl = value;
+      await this.plugin.saveSettings();
+      backendClient.updateConfig(this.plugin.settings);
+    }));
+    containerEl.createEl("h3", { text: "LLM Configuration" });
+    new import_obsidian2.Setting(containerEl).setName("API Endpoint (OpenAI Compatible)").setDesc("Useful for custom model pooling (like AIClient2API) or LiteLLM. Leave default for OpenAI.").addText((text) => text.setPlaceholder("https://api.openai.com/v1").setValue(this.plugin.settings.apiEndpoint).onChange(async (value) => {
+      this.plugin.settings.apiEndpoint = value;
+      await this.plugin.saveSettings();
+      backendClient.updateConfig(this.plugin.settings);
+    }));
+    new import_obsidian2.Setting(containerEl).setName("API Key").setDesc("The API key for your chosen provider. This is securely sent via headers to your local Python backend.").addText((text) => text.setPlaceholder("sk-...").setValue(this.plugin.settings.apiKey).onChange(async (value) => {
+      this.plugin.settings.apiKey = value;
+      await this.plugin.saveSettings();
+      backendClient.updateConfig(this.plugin.settings);
+    })).components[0].inputEl.type = "password";
+    new import_obsidian2.Setting(containerEl).setName("Test Connection").setDesc("Test if the Obsidian plugin can communicate with your Python backend.").addButton((btn2) => btn2.setButtonText("Test Connection").setCta().onClick(async () => {
+      btn2.setButtonText("Testing...");
+      try {
+        const isConnected = await backendClient.checkHealth();
+        if (isConnected) {
+          new import_obsidian2.Notice("\u2705 Successfully connected to Learning OS Backend!");
+          btn2.setButtonText("Connected");
+          setTimeout(() => btn2.setButtonText("Test Connection"), 2e3);
+        } else {
+          new import_obsidian2.Notice("\u274C Failed to connect. Is the Python server running?");
+          btn2.setButtonText("Test Connection");
+        }
+      } catch (e) {
+        new import_obsidian2.Notice("\u274C Connection error.");
+        btn2.setButtonText("Test Connection");
+      }
+    }));
+  }
+};
+
+// src/settings/defaultSettings.ts
+var DEFAULT_SETTINGS = {
+  pythonServerUrl: "http://localhost:8000",
+  apiEndpoint: "https://api.openai.com/v1",
+  apiKey: "",
+  activeSubjectPath: ""
 };
 
 // src/main.ts
-var VIEW_TYPE_LEARNING_OS = "learning-os-view";
-var LearningOSView = class extends import_obsidian.ItemView {
+var VIEW_TYPE_LEARNING_OS = "learning-os-dashboard";
+var LearningOSDashboardView = class extends import_obsidian3.ItemView {
   root = null;
-  constructor(leaf) {
-    super(leaf);
-  }
   getViewType() {
     return VIEW_TYPE_LEARNING_OS;
   }
@@ -21834,9 +22809,8 @@ var LearningOSView = class extends import_obsidian.ItemView {
   async onOpen() {
     const container = this.containerEl.children[1];
     container.empty();
-    container.style.height = "100%";
-    container.style.padding = "10px";
-    container.style.overflowY = "auto";
+    container.style.padding = "0";
+    container.style.overflow = "hidden";
     this.root = (0, import_client.createRoot)(container);
     this.root.render(React2.createElement(App));
   }
@@ -21847,34 +22821,51 @@ var LearningOSView = class extends import_obsidian.ItemView {
     }
   }
 };
-var LearningOSPlugin = class extends import_obsidian.Plugin {
+var LearningOSPlugin = class extends import_obsidian3.Plugin {
+  settings;
   async onload() {
+    await this.loadSettings();
     this.registerView(
       VIEW_TYPE_LEARNING_OS,
-      (leaf) => new LearningOSView(leaf)
+      (leaf) => new LearningOSDashboardView(leaf)
     );
-    this.addRibbonIcon("brain", "Toggle Learning OS", () => {
-      this.toggleView();
+    this.addRibbonIcon("brain", "Open Learning OS Dashboard", async () => {
+      await this.openDashboard();
+    });
+    this.addCommand({
+      id: "open-learning-os-dashboard",
+      name: "Open Learning OS Dashboard",
+      callback: () => this.openDashboard()
+    });
+    this.addSettingTab(new LearningOSSettingTab(this.app, this));
+    backendClient.updateConfig(this.settings);
+  }
+  /** Opens (or reveals) the dashboard in the main editor area as a tab. */
+  async openDashboard() {
+    this.app.workspace.onLayoutReady(async () => {
+      const { workspace } = this.app;
+      const existing = workspace.getLeavesOfType(VIEW_TYPE_LEARNING_OS);
+      if (existing.length > 0) {
+        workspace.revealLeaf(existing[0]);
+        return;
+      }
+      const leaf = workspace.getLeaf("tab");
+      await leaf.setViewState({ type: VIEW_TYPE_LEARNING_OS, active: true });
+      workspace.revealLeaf(leaf);
     });
   }
-  async toggleView() {
-    const { workspace } = this.app;
-    let leaf = workspace.getLeavesOfType(VIEW_TYPE_LEARNING_OS)[0];
-    if (leaf) {
-      workspace.revealLeaf(leaf);
-    } else {
-      const rightLeaf = workspace.getRightLeaf(false);
-      if (rightLeaf) {
-        await rightLeaf.setViewState({
-          type: VIEW_TYPE_LEARNING_OS,
-          active: true
-        });
-        workspace.revealLeaf(rightLeaf);
-      }
-    }
+  async loadSettings() {
+    this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+  }
+  async saveSettings() {
+    await this.saveData(this.settings);
+    backendClient.updateConfig(this.settings);
   }
   onunload() {
     this.app.workspace.detachLeavesOfType(VIEW_TYPE_LEARNING_OS);
+    this.app.workspace.detachLeavesOfType("learning-os-chat-view");
+    this.app.workspace.detachLeavesOfType("learning-os-view");
+    this.app.workspace.detachLeavesOfType("learning-os-dashboard-view");
   }
 };
 /*! Bundled license information:
@@ -21916,6 +22907,17 @@ react-dom/cjs/react-dom-client.development.js:
   (**
    * @license React
    * react-dom-client.development.js
+   *
+   * Copyright (c) Meta Platforms, Inc. and affiliates.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *)
+
+react/cjs/react-jsx-runtime.development.js:
+  (**
+   * @license React
+   * react-jsx-runtime.development.js
    *
    * Copyright (c) Meta Platforms, Inc. and affiliates.
    *

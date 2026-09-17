@@ -1,152 +1,73 @@
-.learning-os-chat-container {
-    display: flex;
-    flex-direction: column;
+/* ─────────────────────────────────────────────────────────────────────────────
+   styles.css — Learning OS Plugin
+   Uses Obsidian CSS variables so the UI respects both light and dark themes.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Root container fills the entire Obsidian leaf ─────────────────────────── */
+.learning-os-root {
     height: 100%;
-    padding: 10px;
+    overflow: hidden;
+    font-family: var(--font-interface);
 }
 
-.learning-os-dashboard {
-    padding: 20px;
-    height: 100%;
-    overflow-y: auto;
-    background-color: var(--background-primary);
+/* ── Scrollbar styling ──────────────────────────────────────────────────────── */
+.learning-os-root *::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+.learning-os-root *::-webkit-scrollbar-track {
+    background: transparent;
+}
+.learning-os-root *::-webkit-scrollbar-thumb {
+    background: var(--background-modifier-border);
+    border-radius: 3px;
+}
+.learning-os-root *::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
 }
 
-.learning-os-dashboard-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid var(--background-modifier-border);
-    margin-bottom: 20px;
-    padding-bottom: 10px;
+/* ── Focus ring for accessibility ───────────────────────────────────────────── */
+.learning-os-root button:focus-visible,
+.learning-os-root input:focus-visible {
+    outline: 2px solid var(--interactive-accent);
+    outline-offset: 2px;
 }
 
-.status-indicator {
-    font-size: 0.8em;
-    color: var(--text-muted);
+/* ── Button hover opacity ───────────────────────────────────────────────────── */
+.learning-os-root button:hover:not(:disabled) {
+    opacity: 0.88;
 }
-
-.learning-os-dashboard-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
-    gap: 20px;
-}
-
-.dashboard-panel {
-    background: var(--background-secondary);
-    border: 1px solid var(--background-modifier-border);
-    border-radius: 8px;
-    padding: 15px;
-}
-
-.chat-panel {
-    grid-row: span 2;
-}
-
-.skill-item {
-    padding: 10px;
-    border-bottom: 1px solid var(--background-modifier-border);
-    display: flex;
-    justify-content: space-between;
-}
-
-.map-placeholder {
-    height: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px dashed var(--background-modifier-border);
-    color: var(--text-muted);
-}
-
-.settings-button {
-    background-color: var(--interactive-accent);
-    color: var(--text-on-accent);
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    width: 100%;
-    cursor: pointer;
-}
-
-
-.learning-os-chat-header {
-    border-bottom: 1px solid var(--background-modifier-border);
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-}
-
-.learning-os-chat-header h3 {
-    margin: 0;
-    color: var(--text-normal);
-}
-
-.learning-os-chat-history {
-    flex-grow: 1;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-bottom: 15px;
-}
-
-.learning-os-chat-msg {
-    padding: 12px 16px;
-    border-radius: 18px;
-    font-size: 0.95em;
-    line-height: 1.4;
-    word-wrap: break-word;
-}
-
-.learning-os-chat-msg.user {
-    background-color: var(--interactive-accent);
-    color: var(--text-on-accent);
-    align-self: flex-end;
-    border-bottom-right-radius: 4px;
-    max-width: 80%;
-}
-
-.learning-os-chat-msg.agent {
-    background-color: var(--background-secondary-alt);
-    color: var(--text-normal);
-    align-self: flex-start;
-    border-bottom-left-radius: 4px;
-    border: 1px solid var(--background-modifier-border);
-    max-width: 85%;
-}
-
-.learning-os-chat-msg strong {
-    display: block;
-    margin-bottom: 4px;
-    font-size: 0.8em;
-    opacity: 0.7;
-}
-
-.learning-os-chat-input-area {
-    display: flex;
-    gap: 8px;
-}
-
-.learning-os-chat-input-area input {
-    flex-grow: 1;
-    background-color: var(--background-modifier-form-field);
-    border: 1px solid var(--background-modifier-border);
-    color: var(--text-normal);
-    padding: 8px;
-    border-radius: 5px;
-}
-
-.learning-os-chat-input-area button {
-    background-color: var(--interactive-accent);
-    color: var(--text-on-accent);
-    border: none;
-    padding: 8px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.learning-os-chat-input-area button:disabled {
-    opacity: 0.5;
+.learning-os-root button:disabled {
+    opacity: 0.45;
     cursor: not-allowed;
+}
+
+/* ── Nav button active state (handled inline, but fallback here) ─────────────── */
+.learning-os-nav-item:hover {
+    background: var(--background-modifier-hover) !important;
+}
+
+/* ── Card hover effect ──────────────────────────────────────────────────────── */
+.learning-os-artifact-card:hover {
+    border-color: var(--interactive-accent) !important;
+    cursor: pointer;
+}
+
+/* ── Input fields ───────────────────────────────────────────────────────────── */
+.learning-os-root input[type="text"],
+.learning-os-root input[type="password"] {
+    transition: border-color 0.15s;
+}
+.learning-os-root input[type="text"]:focus,
+.learning-os-root input[type="password"]:focus {
+    border-color: var(--interactive-accent) !important;
+    outline: none;
+}
+
+/* ── Toggle switch animation ────────────────────────────────────────────────── */
+.los-toggle {
+    transition: background 0.2s ease;
+}
+.los-toggle-knob {
+    transition: left 0.2s ease;
 }

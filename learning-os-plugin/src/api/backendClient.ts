@@ -33,7 +33,6 @@ class BackendClient {
         }
     }
 
-    // Example of future endpoints we will need
     async requestNewSkill(userPrompt: string): Promise<any> {
         if (!this.settings) throw new Error("Settings not loaded");
         
@@ -42,6 +41,55 @@ class BackendClient {
             method: 'POST',
             headers: this.getHeaders(),
             body: JSON.stringify({ prompt: userPrompt })
+        };
+
+        const response = await requestUrl(req);
+        return response.json;
+    }
+
+    async generateArtifact(payload: {
+        topic: string;
+        notes: { path: string; content: string }[];
+        activeSkills: string[];
+        artifactType: string;
+    }): Promise<{ content: string; title: string }> {
+        if (!this.settings) throw new Error("Settings not loaded");
+
+        const req: RequestUrlParam = {
+            url: `${this.settings.pythonServerUrl}/artifacts/generate`,
+            method: 'POST',
+            headers: this.getHeaders(),
+            body: JSON.stringify(payload),
+        };
+
+        const response = await requestUrl(req);
+        return response.json;
+    }
+
+    async ingestResource(payload: {
+        subjectName: string;
+        fileName: string;
+        mimeType: string;
+        contentBase64: string;
+    }): Promise<{
+        ok: boolean;
+        file_name: string;
+        summary: string;
+        description: string;
+        index_entry: string;
+    }> {
+        if (!this.settings) throw new Error("Settings not loaded");
+
+        const req: RequestUrlParam = {
+            url: `${this.settings.pythonServerUrl}/resources/ingest`,
+            method: 'POST',
+            headers: this.getHeaders(),
+            body: JSON.stringify({
+                subject_name:    payload.subjectName,
+                file_name:       payload.fileName,
+                mime_type:       payload.mimeType,
+                content_base64:  payload.contentBase64,
+            }),
         };
 
         const response = await requestUrl(req);

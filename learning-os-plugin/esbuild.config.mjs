@@ -34,10 +34,12 @@ const context = await esbuild.context({
 		...builtins],
 	format: "cjs",
 	target: "es2022",
+	jsx: "automatic",
+	jsxImportSource: "react",
 	logLevel: "info",
 	sourcemap: prod ? false : "inline",
 	treeShaking: true,
-	outfile: "/Users/Apple/Desktop/projects/obsidean_workflow/test-vault/.obsidian/plugins/learning-os/main.js",
+	outfile: "/Users/Apple/Desktop/projects/obsidean_workflow/test-vault/.obsidian/plugins/learning-os-plugin/main.js",
 });
 
 if (prod) {

@@ -1,7 +1,11 @@
 # Frontend Blueprint: Obsidian Plugin
 
+> **Implementation Status (2026-09-09):** The dashboard UI has been fully scaffolded as static mock UI. All 6 pages render with placeholder data. No backend calls are wired yet. See `05-dev-session-notes.md` for build setup, bug history, and critical config notes.
+
 ## 1. Overview
 The Obsidian plugin serves as the primary user interface and file interaction layer. It connects to the local Python FastAPI server to offload heavy AI operations.
+
+The plugin opens as a **full-page center-pane tab** (not a sidebar), triggered by the 🧠 brain icon in the left ribbon or via `Cmd+P → Open Learning OS Dashboard`.
 
 ## 2. Tech Stack
 - **Framework:** Obsidian Plugin API
@@ -10,32 +14,26 @@ The Obsidian plugin serves as the primary user interface and file interaction la
 - **Styling:** CSS (Obsidian's native variables + custom classes)
 - **Bundler:** esbuild (standard for Obsidian plugins)
 
-## 3. Directory Structure (Proposed)
+## 3. Directory Structure (Actual — as of 2026-09-09)
 ```text
 learning-os-plugin/
-├── main.ts                 # Plugin entry point
-├── manifest.json           # Plugin metadata (ID, version, Obsidian requirements)
-├── styles.css              # Custom styling
-├── src/
-│   ├── settings/
-│   │   ├── SettingsTab.ts  # Obsidian settings UI class
-│   │   └── defaultSettings.ts # Default configuration (API URLs, keys)
-│   ├── ui/
-│   │   ├── ChatSidebar.tsx # React component for the Preferences Chatbot
-│   │   ├── SidebarView.ts  # Obsidian ItemView wrapper for ChatSidebar
-│   │   ├── SkillToggles.tsx# UI for turning skills on/off
-│   │   └── widgets/        # Inline markdown React components
-│   │       ├── FeynmanEvaluator.tsx
-│   │       └── FeedbackWidget.tsx
-│   ├── api/
-│   │   └── backendClient.ts # Axios/Fetch wrappers for calling the FastAPI server
-│   ├── canvas/
-│   │   └── canvasManager.ts # Logic to read/write .canvas JSON
-│   ├── vault/
-│   │   ├── fileWriter.ts    # Safe wrappers around app.vault.modify()
-│   │   └── metadataParser.ts# Reads/updates YAML frontmatter (Mastery levels)
-│   └── types/
-│       └── index.ts         # TypeScript interfaces (Settings, Skill, Feedback)
+├── main.ts                 # Plugin entry point (registers view, ribbon, command palette)
+├── manifest.json           # Plugin metadata (ID: "learning-os")
+├── styles.css              # Minimal CSS (scrollbars, focus rings, transitions)
+├── esbuild.config.mjs      # Build — outputs to test-vault/.obsidian/plugins/learning-os-plugin/
+├── tsconfig.json           # jsx: "react-jsx" (React 19 compatible)
+└── src/
+    ├── main.ts             # (same as root — esbuild entry point)
+    ├── settings/
+    │   ├── SettingsTab.ts  # Obsidian settings UI ✅ built
+    │   └── defaultSettings.ts # Default config ✅ built
+    ├── api/
+    │   └── backendClient.ts # HTTP client for FastAPI ✅ built (not yet called from UI)
+    ├── ui/
+    │   └── App.tsx          # Entire dashboard — all 6 pages self-contained ✅ built
+    ├── canvas/              # ⬜ planned: canvasManager.ts
+    ├── vault/               # ⬜ planned: fileWriter.ts, metadataParser.ts
+    └── types/               # ⬜ planned: index.ts (TypeScript interfaces)
 ```
 
 ## 4. Core Modules & Responsibilities
